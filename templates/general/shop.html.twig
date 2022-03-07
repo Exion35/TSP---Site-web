@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shopping{% endblock %}
+
+{% block body %}
+<!-- Section-->
+<br>
+<h1 style="text-align:center; padding: 20px;">Shopping</h1>
+<form class="d-flex justify-content-end">
+    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+        <div class="text-center rounded">
+            <a class="btn btn-outline-dark mt-auto" href="{{ path('panier_index') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 18 18">
+                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+            Panier 
+            <span class="badge bg-dark text-white ms-1 rounded-pill">{{ items|length }}</span></a> 
+        </div>
+    </div>
+</form>
+
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            {% if rooms|length == 0 %}
+                    <h2 style="text-align:center; padding: 20px;">Il n'y a pas de C&C en ligne !</h2>
+            {% endif %}
+            {% for room in rooms %}
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <!-- Sale badge-->
+                    {% if room.onSale and room.price > 5%}
+                        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Soldée</div>
+                    {% endif %}
+                    <!-- Product image-->
+                    <div class="taille-img">
+                        <img class="card-img-top" src="{{ vich_uploader_asset(room, 'imageFile') }}" style="height:10em" alt="{{room.id}}"/>
+                    </div>
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{ room.summary }}</h5>
+                            <!-- Product reviews-->
+                            <div class="d-flex justify-content-center small text-warning mb-2">
+                            {% for i in 0.. (room.rating - 1) %}
+                                <div class="bi-star-fill"></div>
+                            {% endfor %}
+                            {% if (room.rating < 5) %}
+                                {% for i in room.rating..4 %}
+                                    <div class="bi-star"></div>
+                                {% endfor %}
+                            {% endif %}
+                            </div>
+                            
+                            <!-- Product price-->
+                            {% if room.onSale and room.price > 5 %}
+                                <span class="text-muted text-decoration-line-through">{{room.price}} €</span>
+                                {{room.price - 5}} €
+                            {% else %}
+                                {{room.price}} €
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            {% if room.isFree %}
+                            <a class="btn btn-outline-dark mt-auto" href="{{ path('panier_add',{'id': room.id}) }}">Ajouter au panier</a> <br><br>
+                            {% else %}
+                            <a class="btn btn-outline-dark mt-auto disabled" href="#">Non disponible</a> <br><br>
+                            {% endif %}
+                            <a class="btn btn-outline-dark mt-auto" href="{{ path('room_show0', {'id': room.id}) }}">Plus d'informations</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %} 
+        </div>
+    </div>
+</section>
+{% endblock %}
+

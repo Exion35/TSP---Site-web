@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1 style="text-align:center; padding: 20px;">User</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {{ include('user/_delete_form.html.twig') }}
+    <br>
+    <button type="button" class="btn btn-dark" onclick="window.location.href='javascript:history.go(-1)'">Retour</button>
+    <div class="vspace">
+    </div>
+{% endblock %}

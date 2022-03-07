@@ -1,0 +1,3 @@
+collectionOperations:
+        get:
+            filters: ['offer.search_filter']

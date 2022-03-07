@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}C&C{% endblock %}
+
+{% block body %}
+
+    <h1 style="text-align:center; padding: 20px;">Liste de Couettes & Cafés</h1>
+    {% if app.user %}
+        <div class="m-5">
+        <p>Connecté(e) en tant que <b>{{ app.user }}</b>. 
+        Vous êtes un <b>{% if is_granted('ROLE_ADMIN') %}administrateur{% else %}propriétaire{% endif %}</b> de Couettes & Cafés.</p>
+        </div>
+    {% endif %}
+    <div class="m-5">
+
+        
+        {# <form method="post" >
+            <select class="form-select form-select-sm" aria-label=".form-select-sm" name="selectRegion">
+                <option selected>Quelle région ?</option>
+                <option value="Toutes">Toutes</option>
+                {% for region in regions %}
+                    <option value="{{ region }}">{{ region }}</option>
+                {% endfor %}
+            </select>
+        </form> #}
+
+   
+    </div>
+    <div class="card-group m-5 album">
+        {% for room in rooms %}
+        <div class="card ensemble ">
+            <div class="taille-img-idx">
+                <img src="{{ vich_uploader_asset(room, 'imageFile') }}" class="card-img-top" style='height: 20em' alt="C&C {{room.id}}">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{room.summary}}</h5>
+                <p class="card-text">{{room.description}}</p>
+                <p class="card-text"><b>
+                {% if room.onSale and room.price > 5 %}
+                    <td>{{ room.price - 5}} €</td>
+                    {% else %}
+                    <td>{{ room.price }} €</td>
+                    {% endif %}</b> la nuit.</p>
+                <div class="text-center">
+                    <button type="button" class="btn btn-dark" onclick="window.location.href='{{ path('room_show0', {'id': room.id}) }}'">Voir le C&C</button>
+                    {% if (app.user and app.user.owner == room.owner) or (is_granted('ROLE_ADMIN')) %}
+                        <button type="button" class="btn btn-warning" onclick="window.location.href='{{ path('room_edit', {'id': room.id}) }}'">Modifier</button>
+                    {% endif %}
+                </div>  
+            </div>
+        </div>
+        {% else %}
+        Pas de C&C en ligne !
+        {% endfor %} 
+    </div>
+    {# <p><button id="roomsbtn">Cliquer ici pour charger la liste des C&C dynamiquement</button></p>
+
+    <!-- réceptacle pour la liste des tâches chargée dynamiquement -->
+    <div class="divtasks"></div> #}
+    <div class="m-5">
+        <div class="text-center">
+            <button type="button" class="btn btn-info" onclick="window.location.href='{{ path('search_room') }}'">Recherchez les C&C proches de chez vous </button>
+        </div>
+    </div>
+  
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}C&C{% endblock %}
+
+{% block body %}
+
+<h1 style="text-align:center; padding: 20px;">Panel administrateur</h1>
+
+{{ include('owner/index.html.twig') }}
+<hr>
+{{ include('region/index.html.twig') }}
+<hr>
+{{ include('room/index.html.twig') }}
+<hr>
+{{ include('comment/index.html.twig') }}
+<hr>
+{{ include('user/index.html.twig') }}
+
+
+  
+{% endblock %}

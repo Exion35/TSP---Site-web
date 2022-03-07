@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création Commentaire{% endblock %}
+
+{% block body %}
+    <h1 style="text-align:center; padding: 20px;">Création Commentaire</h1>
+
+    {{ include('comment/_form.html.twig') }}
+
+    <br>
+    <button type="button" class="btn btn-dark" onclick="window.location.href='javascript:history.go(-1)'">Retour</button>
+    <div class="vspace">
+    </div>
+{% endblock %}

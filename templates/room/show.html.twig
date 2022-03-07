@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Room{% endblock %}
+
+{% block body %}
+    <h1 style="text-align:center; padding: 20px;">Room</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ room.id }}</td>
+            </tr>
+            <tr>
+                <th>Summary</th>
+                <td>{{ room.summary }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ room.description }}</td>
+            </tr>
+            <tr>
+                <th>Capacity</th>
+                <td>{{ room.capacity }}</td>
+            </tr>
+            <tr>
+                <th>Superficy</th>
+                <td>{{ room.superficy }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ room.price }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ room.address }}</td>
+            </tr>
+            <tr>
+                <th>Rating</th>
+                <td>{{ room.Rating }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td><img src="{{ vich_uploader_asset(room, 'imageFile') }}"/></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-warning" onclick="window.location.href='{{ path('room_edit', {'id': room.id}) }}'">Modifier</button>
+    <br><br>
+    {{ include('room/_delete_form.html.twig') }}
+    <br>
+    <button type="button" class="btn btn-dark" onclick="window.location.href='javascript:history.go(-1)'">Retour</button>
+    <div class="vspace">
+    </div>
+{% endblock %}

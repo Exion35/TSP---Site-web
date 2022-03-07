@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}C&C {{room.id}}{% endblock %}
+
+{% block body %}
+    <h1 style="text-align:center; padding: 20px;">Bienvenue au Couette & Café</h1>
+    <div class="py-4">
+        
+        <div class="container">
+            <div class="displayed img-responsive img-thumbnail">
+                <img src="{{ vich_uploader_asset(room, 'imageFile') }}" alt="C&C {{room.id}}" style="width: 100%; height: auto;">
+            </div>
+            <br>
+            <div class="p-5 mb-4 bg-light rounded-3">
+                <div class="container-fluid py-5" style="text-align: center;">
+                    <h1 class="display-5 fw-bold">{{ room.summary }}</h1>
+                    <p class="col-md fs-4">{{ room.description }}</p>
+                    <br>
+                    <a class="btn btn-outline-dark mt-auto" href="{{ path('shop') }}">Réserver tant que c'est possible !</a> 
+                </div>
+            </div>
+            <div class="row align-items-md-stretch">
+            <div class="col-md-6">
+                <div class="h-100 p-5 text-white bg-dark rounded-3">
+                    <h2><i class="bi bi-pin-map-fill p-3"></i>Où ?</h2><br>
+                    <p>{{ room.address }}</p>
+                    <hr><br>
+                    <h2><i class="bi bi-currency-exchange p-3"></i>Combien ?</h2><br>
+                    <p>{% if room.onSale and room.price > 5 %}
+                    {{ room.price - 5}} €
+                    {% else %}
+                    {{ room.price }} €
+                    {% endif %}
+                    la nuit, soit 
+                    {% if room.onSale and room.price > 5 %}
+                    {{ 30*(room.price - 5)}} €
+                    {% else %}
+                    {{ 30*room.price }} €
+                    {% endif %}
+                    par mois.</p>
+                    <hr><br>
+                    <h2><i class="bi bi-person-circle p-3"></i>Le/la propriétaire ?</h2><br>
+                    <p>{{ room.owner }}</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="h-100 p-5 bg-light border rounded-3" style="word-wrap: break-word;">
+                    <h2>Superficie</h2>
+                    <p>{{room.superficy}} m², pour une capacité totale de {{room.capacity}} personne{% if room.capacity > 1 %}s{% endif %}.</p>
+                    <hr>
+                    <h2>Commentaires d'anciens locataires</h2>
+                    <br>
+                    <ul>
+                    {% for comment in comments %}
+                            <li>{{ comment }}
+                            {% if app.user %}
+                                <a href="{{ path('comment_edit', {'id': comment.id}) }}">edit</a>
+                            {% endif %}
+                            </li>
+                            <br>
+                    {% else %}
+                    </ul>
+                    Aucun commentaire à afficher.
+                    {% endfor %}
+                    <hr>
+                    <h2>Note moyenne du C&C</h2>
+                    <div class="d-flex justify-content-center small text-warning mb-2">
+                        {% for i in 0.. (room.rating - 1) %}
+                            <div class="bi-star-fill"></div>
+                        {% endfor %}
+                        {% if (room.rating < 5) %}
+                            {% for i in room.rating..4 %}
+                                <div class="bi-star"></div>
+                            {% endfor %}
+                        {% endif %}
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <hr>
+        <h2 style="text-align:center; padding: 20px;">Laissez un commentaire à ce C&C !</h2>
+        <br>   
+            <div id="comment_form">
+                <form class="row g-3" name="comment_form" method="post" enctype="multipart/form-data">
+                    <div class="col-md-6">
+                        <label for="comment_form_email" class="form-label required">Email</label>
+                        <input type="email" class="form-control" id="comment_form_email" name="comment_form[email]" required="required" maxlength="255">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="comment_form_author" class="form-label required">Nom</label>
+                        <input type="text" class="form-control" id="comment_form_author" name="comment_form[author]" required="required" maxlength="255" />
+                    </div>
+                    <label for="comment_form_content" class="form-label required">Votre commentaire</label>
+                    <div class="col-12 input-group">
+                        <textarea class="form-control" id="comment_form_content" name="comment_form[content]" required="required" maxlength="255"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-info" type="submit" id="comment_form_submit" >Envoyer</button>
+                    </div>
+                    {% do comment_form._token.setRendered %} 
+                     <input type="hidden" id="comment_form__token" name="comment_form[_token]" value="{{ comment_form._token.vars.value }}">
+                </form>    
+            </div>
+            <hr>
+        </div>
+    </div>
+    <br>
+    <div class="text-center">
+        <button type="button" class="btn btn-dark" onclick="window.location.href='javascript:history.go(-1)'">Retour</button>
+    </div>
+    <div class="vspace"></div>
+    {# <br>
+    {{ form_start(comment_form) }}
+    {{ form_widget(comment_form) }}
+    <br>
+    <button class="btn btn-success">{{ button_label|default('Mettre à jour') }}</button>
+{{ form_end(comment_form) }} #}
+
+{% endblock %}

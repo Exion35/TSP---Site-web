@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <div class="vspace"></div>
+
+<main class="form-signin modal-content rounded-5 shadow">
+<form method="post">
+
+    {% if app.user %}
+        <div class="m-5">
+        Connecté(e) en tant que <b>{{ app.user }}</b>. 
+        Veuillez vous <a href="{{ path('app_logout')}}">déconnecter</a>.
+        </div>
+    {% else %}
+    <div class="m-4">
+    <div class="modal-header p-4 pb-4 border-bottom-0">
+        <!-- <h5 class="modal-title">Modal title</h5> -->
+        <h2 class="fw-bold mb-0">S'inscrire à C&C</h2>
+    </div>
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.firstName, {
+            label: 'Prénom'
+        }) }}
+        {{ form_row(registrationForm.familyName, {
+            label: 'Nom de famille'
+        }) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Mot de passe',
+        }) }}
+    {{ form_end(registrationForm) }}
+    <br>
+    <button class="w-100 btn btn-lg btn-dark" type="submit">
+            S'inscrire
+    </button>
+    <hr class="my-4">
+    <h2 class="fs-5 fw-bold mb-3">Autres modes d'inscription</h2>
+    <button class="w-100 py-2 mb-2 btn btn-outline-dark rounded-4 disabled">
+            <i class="bi bi-twitter"></i>
+            S'inscrire avec Twitter
+          </button>
+    <button class="w-100 py-2 mb-2 btn btn-outline-primary rounded-4 disabled">
+            <i class="bi bi-facebook"></i>
+            S'inscrire avec Facebook
+          </button>
+    </div>
+    {# <div class="registrationForm">
+    <main class="form-signin">
+        <form class="row g-3" name="registrationForm" method="post" enctype="multipart/form-data">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="registrationForm_firstName" name="registrationForm[firstName]" required="required" maxlength="255">
+                <label for="floatingInput" class="form-label required">Prénom</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" name="registrationForm[familyName]" required="required" maxlength="255" />
+                <label for="floatingInput" class="form-label required">Nom de famille</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input type="email" class="form-control" id="registrationForm_email" name="registrationForm[email]" required="required" maxlength="255" />
+                <label for="floatingInput" class="form-label required">Email</label>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="registrationForm_plainPassword" name="registrationForm[plainPassword]" required="required" maxlength="255" />
+                <label for="floatingInput" class="form-label required">Mot de passe</label>
+            </div>
+            <br>
+            {% do registrationForm._token.setRendered %} 
+                     <input type="hidden" id="registrationForm__token" name="registrationForm[_token]" value="{{ registrationForm._token.vars.value }}">
+            <div class="text-center">
+                <button class="w-100 btn btn-lg btn-dark" type="submit" id="registrationForm_submit" name="registrationForm[submit]">S'inscrire</button>
+            </div>
+        </form>    
+    </main>
+    </div> #}
+    {% endif %}
+</form>
+</main>
+<div class="vspace"></div>
+{% endblock %}

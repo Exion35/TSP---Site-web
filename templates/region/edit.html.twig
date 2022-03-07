@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification Region{% endblock %}
+
+{% block body %}
+    <h1 style="text-align:center; padding: 20px;">Modification Region</h1>
+
+    {{ include('region/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    <br>
+    {{ include('region/_delete_form.html.twig') }}
+
+    <br>
+    <button type="button" class="btn btn-dark" onclick="window.location.href='javascript:history.go(-1)'">Retour</button>
+    <div class="vspace">
+    </div>
+
+{% endblock %}
